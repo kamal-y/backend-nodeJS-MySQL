@@ -10,17 +10,15 @@ A simple RESTful API for user authentication and product management, built with 
    ```bash
    npm install
 
-#API Endpoints
-##Authentication
+Authentication
 POST /signup: Register a new user.
-POST /login: Login and get a JWT token.
-##Products
-(Authenticated Routes: Requires Authorization: Bearer <token> in headers)
+POST /login: Login and receive a JWT token.
+Products
+Note: All product-related routes require an Authorization: Bearer <token> header.
 
-GET /api/products: Get all products.
-POST /api/products: Create a new product.
-PUT /api/products/:id: Update a product by ID.
-DELETE /api/products/:id: Delete a product by ID.
-
-#Database
-The project uses MySQL hosted on Clever Cloud. Create users and products tables as per your requirements.
+GET /api/products: Retrieve all products.
+POST /api/products: Add a new product.
+PUT /api/products/:id: Update an existing product by its ID.
+DELETE /api/products/:id: Delete a product by its ID.
+Database
+The project uses a MySQL database hosted on Clever Cloud.
