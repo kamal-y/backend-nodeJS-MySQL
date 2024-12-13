@@ -9,26 +9,12 @@ exports.auth = async (req, res, next) => {
             req.body.token ||
             req.header("Authorization")?.replace("Bearer ", "");
 
-        console.log("Token received:", token);
 
         // If token is missing, return an error
         if (!token) {
             return res.status(401).json({
                 success: false,
                 message: "Token is missing. Authorization denied.",
-            });
-        }
-
-        // Verify the token
-        try {
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            console.log("Decoded token:", decoded);
-            req.user = decoded; // Attach decoded payload to req.user
-        } catch (error) {
-            // Token verification error
-            return res.status(401).json({
-                success: false,
-                message: "Invalid token. Authorization denied.",
             });
         }
 
@@ -40,4 +26,23 @@ exports.auth = async (req, res, next) => {
             message: "An unexpected error occurred during authentication.",
         });
     }
+};
+
+exports.authCurrentUser = async (req, res, next) => {
+    const token = req.headers.authorization?.split(' ')[1];
+
+    if (!token) {
+        return res.status(400).json({ success: false, message: 'Token not provided' });
+    }
+
+    jwt.verify(token, 'your-secret-key', (err, decoded) => {
+        if (err) {
+            return res.status(500).json({ success: false, message: 'Invalid token' });
+        }
+
+        // Token is valid
+        res.json({ success: true, message: 'Token is valid' });
+    });
+
+
 };

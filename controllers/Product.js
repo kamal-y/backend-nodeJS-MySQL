@@ -5,17 +5,23 @@ const productsController = {
     getAll: async (req, res) => {
         try {
             const [rows, fields] = await pool.query("SELECT * FROM products");
+
+
+            // Return the data with a success message
             res.json({
                 data: rows
             });
         } catch (error) {
             console.error(error);
-            res.json({
+
+            // Return a 500 error if something goes wrong
+            res.status(500).json({
                 status: "error",
-                message: "Failed to retrieve products." 
+                message: "Failed to retrieve products."
             });
         }
-    },
+    }
+    ,
 
     getById: async (req, res) => {
         try {
@@ -66,6 +72,7 @@ const productsController = {
         try {
             const { name, price, description } = req.body;
             const { id } = req.params;
+
             const sql = "UPDATE products SET name = ?, price = ?, description = ? WHERE id = ?";
             const [rows, fields] = await pool.query(sql, [name, price, description, id]);
 
